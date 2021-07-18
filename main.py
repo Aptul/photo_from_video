@@ -40,7 +40,7 @@ def do_job(video, directory, photo_name):
     get_photo_from_video(video=video, directory=directory, photo_name=photo_name)
     image_cropper(photo=f'{directory}/{photo_name}')
     image_resizer(photo=f'{directory}/{photo_name}')
-if name == '__main__':
+if __name__ == '__main__':
     import pymongo
 
     myclient = pymongo.MongoClient('mongodb://admin:password@192.168.1.222:27017')
