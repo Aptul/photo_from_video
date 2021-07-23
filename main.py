@@ -1,24 +1,36 @@
+import time
+
 def get_photo_from_video(video, directory, photo_name):
     import cv2
     import os
 
     current_dir = os.getcwd()
-    if not os.path.isdir(os.getcwd() + f"/{directory}"):
-        os.mkdir(os.getcwd() + f"/{directory}")
-    if not os.path.isfile(os.getcwd() + f"/{directory}/{photo_name}"):
-        cap = cv2.VideoCapture(video)
-        if cap.isOpened():
-            total_frames = cap.get(7)
+    success = False
+    count = 0
+    while not success or count > 4:
+        try:
+            if not os.path.isdir(os.getcwd() + f"/{directory}"):
+                os.mkdir(os.getcwd() + f"/{directory}")
+            if not os.path.isfile(os.getcwd() + f"/{directory}/{photo_name}"):
+                cap = cv2.VideoCapture(video)
+                if cap.isOpened():
+                    total_frames = cap.get(7)
 
-            cap.set(1, int(total_frames / 2))
-            ret, still = cap.read()
-            os.chdir(os.getcwd() + "/" + directory)
-            cv2.imwrite(f"{photo_name}", still)
-            print(f'written image {directory}/{photo_name}')
-        else:
-            print('non sono riuscito ad aprire il file')
-            print(video)
-    os.chdir(current_dir)
+                    cap.set(1, int(total_frames / 2))
+                    ret, still = cap.read()
+                    os.chdir(os.getcwd() + "/" + directory)
+                    cv2.imwrite(f"{photo_name}", still)
+                    print(f'written image {directory}/{photo_name}')
+                    success = True
+                else:
+                    print('non sono riuscito ad aprire il file')
+                    print(video)
+        except Exception as e:
+            print(e)
+            count = count + 1
+            time.sleep(5)
+        finally:
+            os.chdir(current_dir)
 
 
 def image_cropper(photo):
