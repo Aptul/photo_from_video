@@ -75,7 +75,7 @@ if __name__ == '__main__':
     import multiprocessing
 
     myclient = pymongo.MongoClient("mongodb://admin:password@aruculu.ddns.net:27017", connect=False)
-    mydb = myclient["animefs"]
+    mydb = myclient["animes"]
     mytb = mydb["anime_tb"]
 
     animes = mytb.find()
